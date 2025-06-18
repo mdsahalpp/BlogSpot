@@ -1,0 +1,62 @@
+.writeBlog {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: whitesmoke;
+  align-items: center;
+  flex-direction: column;
+  color: black;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  height: 80vh;
+  width: 75vh;
+}
+
+#title {
+  width: 99%;
+  height: 10%;
+  background-color: white;
+  color: black;
+  font-size: xx-large;
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+  border: none;
+  resize: none;
+  outline: none;
+  padding-top: 25px;
+}
+
+#description {
+  width: 99%;
+  height: 98%;
+  background-color: white;
+  color: black;
+  font-size: x-large;
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+  border: none;
+  padding-top: 25px;
+  outline: none;
+}
+
+#plusButton {
+  background-color: white;
+}
+
+.bottomButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#submit {
+  margin-right: 60px;
+  background-color: green;
+}

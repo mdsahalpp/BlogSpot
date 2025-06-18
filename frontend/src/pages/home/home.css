@@ -4,4 +4,5 @@
   height: 100vh;
   background-color: whitesmoke;
   color: black;
+  flex-direction: column;
 }

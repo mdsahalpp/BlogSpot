@@ -5,6 +5,6 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 const router = express.Router();
 
 router.post("/create", verifyToken, createBlog);
-router.get("/blogs", verifyToken, getBlogs);
+router.get("/", getBlogs);
 
 export default router;

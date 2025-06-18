@@ -1,6 +1,6 @@
 nav {
   display: flex;
-  background-color: gray;
+  background-color: rgb(199, 194, 194);
   flex-direction: row;
   align-items: center;
   height: 10vh;
@@ -26,14 +26,43 @@ nav {
   height: 100%;
 }
 
+#logoName {
+  font-family: "playfair Display", serif;
+}
+
 input {
   width: 400px;
   height: 40px;
   border-radius: 20px;
   margin-left: 30px;
   padding-left: 20px;
+  color: black;
+  background-color: white;
+  font-size: large;
+  font-family: sans-serif;
+  font-weight: bold;
 }
 
-p {
-  margin-right: 40px;
+img {
+  width: 30px;
+  height: 30px;
+}
+
+img:hover {
+  cursor: pointer;
+  color: whitesmoke;
+}
+
+.navLink {
+  display: flex;
+  color: black;
+  font-weight: bold;
+  align-items: center;
+  flex-direction: row;
+  margin-right: 70px;
+}
+
+.navLink:hover {
+  cursor: pointer;
+  color: inherit;
 }

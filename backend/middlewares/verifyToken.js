@@ -7,7 +7,6 @@ export const verifyToken = (req, res, next) => {
     console.log("Token not found");
     return res.status(401).json({ message: "Token not found" });
   }
-  console.log("Token is : ", token);
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     if (!verified) {

@@ -1,7 +1,7 @@
 import Blog from "../models/Blog.js";
 
 export const createBlog = async (req, res) => {
-  const { title, description, image } = req.body;
+  const { title, description, image, content } = req.body;
   const author = req.userId;
   try {
     const newBlog = new Blog({
@@ -19,7 +19,9 @@ export const createBlog = async (req, res) => {
 
 export const getBlogs = async (req, res) => {
   try {
+    console.log("getBlogs");
     const blogs = await Blog.find().populate("author", "username");
+    console.log(blogs);
     res.status(200).json(blogs);
   } catch (err) {
     res.status(500).json({ message: "Error fetching blogs" });

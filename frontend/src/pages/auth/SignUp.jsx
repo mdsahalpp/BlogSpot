@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./auth.css";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -38,7 +39,8 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <div className="container">
+      <div className="form-data">
       <h1>SignUp page</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username</label>
@@ -76,6 +78,7 @@ const SignUp = () => {
 
         <button type="submit">Sign up</button>
       </form>
+      </div>
     </div>
   );
 };
