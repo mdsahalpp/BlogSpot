@@ -1,0 +1,11 @@
+# Enviornmental files
+.env
+
+# Hide pdfs
+*.pdf
+
+# Hide system files
+.DS_Store
+
+# Hide node_modules
+node_modules

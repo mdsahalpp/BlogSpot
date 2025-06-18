@@ -13,7 +13,7 @@ export const verifyToken = (req, res, next) => {
       return res.status(401).json({ message: "Token varification failed" });
     }
 
-    req.userId = { id: verified.id };
+    req.user = { id: verified.id };
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });
