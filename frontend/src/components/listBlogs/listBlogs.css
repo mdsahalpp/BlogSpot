@@ -1,0 +1,12 @@
+.list-blogs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 50vw;
+}

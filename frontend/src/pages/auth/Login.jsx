@@ -1,9 +1,12 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../../context/authContext.jsx";
 import "./auth.css";
 
 const Login = () => {
+  const { setUser, setIsAuthenticated } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +28,8 @@ const Login = () => {
       );
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
+        setUser(response.data.user);
+        setIsAuthenticated(true);
         navigate("/home");
       }
     } catch (err) {

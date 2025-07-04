@@ -2,24 +2,23 @@ import Blog from "../models/Blog.js";
 import User from "../models/User.js";
 
 export const createBlog = async (req, res) => {
-  const { title, description, content, image } = req.body;
+  const { title, description, content } = req.body;
   const author = req.user.id;
 
-  console.log("Here we are");
-  console.log("Author : ", author);
-
-  if (!title || !description || !author || !content) {
+  if (!title || !description || !author) {
     return res
       .status(400)
       .json({ message: "Title, description and author are required" });
   }
 
   try {
+    const imgUrl = req.file.path;
+    console.log("Image URL : ", imgUrl);
     const newBlog = new Blog({
       title,
       description,
       content,
-      image,
+      image: imgUrl,
       author,
     });
     await newBlog.save();
@@ -38,7 +37,6 @@ export const getBlogs = async (req, res) => {
     const blogs = await Blog.find()
       .sort({ createdAt: -1 })
       .populate("author", "username");
-    console.log(blogs);
     res.status(200).json(blogs);
   } catch (err) {
     res.status(500).json({ message: "Error fetching blogs" });
@@ -53,7 +51,6 @@ export const getBlogById = async (req, res) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-
     res.status(200).json(blog);
   } catch (err) {
     res.status(500).json({ message: "Error fetching blog by ID" });
@@ -113,6 +110,7 @@ export const updateBlog = async (req, res) => {
 
 export const deleteBlog = async (req, res) => {
   const { blogId } = req.params;
+  console.log("Blog ID : ", blogId);
   const userId = req.user.id;
 
   try {
@@ -133,5 +131,30 @@ export const deleteBlog = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error deleting blog", error: err.message });
+  }
+};
+
+export const searchBlogs = async (req, res) => {
+  const { q } = req.params;
+  console.log("Search query : ", q);
+  try {
+    const user = await User.findOne({ username: q });
+
+    const query = {
+      $or: [
+        { title: { $regex: q, $options: "i" } },
+        ...(user ? [{ author: user._id }] : []),
+      ],
+    };
+
+    const blogs = await Blog.find(query).populate("author", "username");
+    if (blogs.length === 0) {
+      return res.status(404).json({ message: "No blogs found" });
+    }
+    res.status(200).json(blogs);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Error searching blogs", error: err.message });
   }
 };

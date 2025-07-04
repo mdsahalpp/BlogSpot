@@ -61,7 +61,7 @@ export const login = async (req, res) => {
 };
 
 export const checkUser = async (req, res) => {
-  const { id } = req.userId;
+  const { id } = req.user;
   try {
     const user = await User.findById(id).select(
       "-password -createdAt -updatedAt"

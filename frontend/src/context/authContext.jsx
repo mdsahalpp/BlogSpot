@@ -6,7 +6,7 @@ const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,7 +54,9 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, [navigate, location.pathname]);
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading }}>
+    <AuthContext.Provider
+      value={{ user, setUser, setIsAuthenticated, isAuthenticated, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

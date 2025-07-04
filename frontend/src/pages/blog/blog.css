@@ -1,0 +1,136 @@
+.blog {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: row;
+  margin: 0;
+  width: 100vw;
+  height: 100%;
+  background-color: whitesmoke;
+  color: black;
+}
+
+.blog-container {
+  display: flex;
+  width: 50vw;
+  height: auto;
+  flex-direction: column;
+  background-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 50px;
+}
+
+.img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+}
+
+.img-container img {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-opt {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  margin-top: 50px;
+  align-items: center;
+  flex-direction: column;
+}
+
+#three-dot {
+  width: 50px;
+  height: 50px;
+}
+
+#three-dot:hover {
+  cursor: pointer;
+  width: 55px;
+  height: 55px;
+}
+
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  height: auto;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+}
+
+.dropdown-menu img {
+  margin-bottom: 10px;
+  width: 25px;
+  height: 25px;
+}
+
+.dropdown-menu img:hover {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+.dropdown-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  position: absolute;
+  left: 35px; /* position to the right of the icon */
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.dropdown-item:hover .tooltip-text {
+  visibility: visible;
+}
+
+.confirm-dlt {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.confirm-dlt-opt {
+  display: flex;
+  width: 400px;
+  height: 130px;
+  background-color: white;
+  backdrop-filter: blur(5px);
+  flex-direction: column;
+  font-size: large;
+  font-weight: bold;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.confirm-opt-btn {
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  width: 100%;
+}

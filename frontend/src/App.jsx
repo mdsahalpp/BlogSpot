@@ -4,6 +4,8 @@ import Login from "./pages/auth/Login";
 import Home from "./pages/home/Home";
 import LandingPage from "./pages/test/LandingPage.jsx";
 import WriteBlog from "./pages/write/WriteBlog.jsx";
+import Blog from "./pages/blog/Blog.jsx";
+import Profile from "./pages/profile/Profile.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
 
 const App = () => {
@@ -16,6 +18,8 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/create" element={<WriteBlog />} />
+          <Route path="/blog/:id" element={<Blog />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </AuthProvider>
     </Router>
