@@ -1,0 +1,125 @@
+.writeBlog {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: whitesmoke;
+  align-items: center;
+  flex-direction: column;
+  color: black;
+}
+
+.blogForm {
+  display: flex;
+  flex-direction: column;
+  width: 40vw;
+  height: 80vh;
+  margin: 0;
+  color: black;
+}
+
+textarea {
+  display: flex;
+  background-color: white;
+  align-items: center;
+  color: black;
+  outline: none;
+  padding: 20px 0 0 20px;
+  font-family: "Playfair Display", serif;
+}
+
+#title {
+  display: flex;
+  align-content: center;
+  width: 97.4%;
+  height: 7vh;
+  padding: 20px 0 0 20px;
+  font-size: xx-large;
+  font-weight: bold;
+  font-family: "Playfair Display", serif;
+  border: none;
+  resize: none;
+}
+
+textarea::placeholder {
+  font-size: xx-large;
+  font-weight: bold;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+}
+
+#description {
+  width: 97.4%;
+  height: 10vh;
+  border: none;
+  resize: none;
+  font-size: large;
+  font-weight: bold;
+}
+
+#story {
+  width: 97.4%;
+  height: 60vh;
+  border: none;
+  resize: none;
+  font-size: larger;
+}
+
+.bottom-div {
+  width: 40vw;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
+  margin: 0;
+}
+
+.image-upload {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  height: auto;
+  padding-left: 30px;
+}
+
+.image-upload img:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.publish-btn {
+  display: flex;
+  justify-content: end;
+  width: 50%;
+  padding-right: 10px;
+}
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: white;
+}
+
+.image-preview img {
+  width: 40%;
+  height: 300px;
+}
+
+.error {
+  color: red;
+}
+
+#cancel-btn {
+  background-color: red;
+  margin-right: 20px;
+  width: 100px;
+  height: 40px;
+}
+
+#update-btn {
+  background-color: black;
+  width: 100px;
+  height: 40px;
+}

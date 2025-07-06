@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./blog.css";
 import AuthContext from "../../context/authContext";
 
@@ -14,6 +14,7 @@ const Blog = () => {
   const [author, setAuthor] = useState("");
   const [openOpt, setOpenOpt] = useState(false);
 
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -23,9 +24,9 @@ const Blog = () => {
         const res = await axios.get(`http://localhost:5000/blog/${id}`);
         setBlog(res.data);
         setAuthor(res.data.author.username);
-        console.log("Fetched blog: ", res.data.author.username);
+        console.log("Fetched blog: ", res.data.author._id);
         console.log("user : ", user);
-        if (user.id === res.data.author._id) {
+        if (user._id === res.data.author._id) {
           setOpenOpt(true);
         }
       } catch (err) {
@@ -38,6 +39,10 @@ const Blog = () => {
 
     fetchBlog();
   }, [id, user]);
+
+  const handleEdit = () => {
+    navigate(`/edit/${id}`);
+  };
 
   const deleteBlog = async () => {
     const token = localStorage.getItem("token");
@@ -83,7 +88,7 @@ const Blog = () => {
           />
           {isOpen && (
             <div className="dropdown-menu">
-              <div className="dropdown-item">
+              <div className="dropdown-item" onClick={handleEdit}>
                 <img src="/write.png" alt="edit" />
                 <span className="tooltip-text">edit</span>
               </div>

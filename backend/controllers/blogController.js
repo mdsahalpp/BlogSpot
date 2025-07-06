@@ -13,7 +13,6 @@ export const createBlog = async (req, res) => {
 
   try {
     const imgUrl = req.file.path;
-    console.log("Image URL : ", imgUrl);
     const newBlog = new Blog({
       title,
       description,
@@ -22,7 +21,6 @@ export const createBlog = async (req, res) => {
       author,
     });
     await newBlog.save();
-    console.log("Saved");
     res.status(201).json({ message: "Blog created successfully" });
   } catch (err) {
     res.status(500).json({
@@ -59,7 +57,6 @@ export const getBlogById = async (req, res) => {
 
 export const getBlogByAuthor = async (req, res) => {
   const { username } = req.params;
-  console.log("Username : ", username);
   try {
     const user = await User.findOne({
       username: new RegExp(`${username}$`, "i"),
@@ -83,8 +80,10 @@ export const getBlogByAuthor = async (req, res) => {
 
 export const updateBlog = async (req, res) => {
   const { blogId } = req.params;
-  const { title, description, content, image } = req.body;
+  const { title, description, content } = req.body;
+  const image = req.file.path;
   const userId = req.user.id;
+
   try {
     const blog = await Blog.findById(blogId);
     if (!blog) {
@@ -110,7 +109,6 @@ export const updateBlog = async (req, res) => {
 
 export const deleteBlog = async (req, res) => {
   const { blogId } = req.params;
-  console.log("Blog ID : ", blogId);
   const userId = req.user.id;
 
   try {
@@ -136,7 +134,6 @@ export const deleteBlog = async (req, res) => {
 
 export const searchBlogs = async (req, res) => {
   const { q } = req.params;
-  console.log("Search query : ", q);
   try {
     const user = await User.findOne({ username: q });
 

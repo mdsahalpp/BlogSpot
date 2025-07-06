@@ -13,7 +13,6 @@ const SearchBlog = ({ searchTerm }) => {
           `http://localhost:5000/blog/search/${searchTerm}`
         );
         setBlogs(response.data);
-        console.log("Fetched blogs : ", response.data);
       } catch (err) {
         console.error("Error fetching blogs: ", err);
         setBlogs([]);

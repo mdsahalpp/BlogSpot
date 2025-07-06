@@ -24,7 +24,7 @@ router.get("/:blogId", getBlogById);
 
 router.get("/author/:username", verifyToken, getBlogByAuthor);
 
-router.put("/update/:blogId", verifyToken, updateBlog);
+router.put("/update/:blogId", verifyToken, upload.single("image"), updateBlog);
 
 router.delete("/delete/:blogId", verifyToken, deleteBlog);
 

@@ -98,7 +98,7 @@ const writeBlog = () => {
               </label>
             </div>
             <div className="publish-btn">
-              <button>Publish</button>
+              <button type="submit">Publish</button>
             </div>
           </div>
           {error && <p className="error">{error}</p>}
