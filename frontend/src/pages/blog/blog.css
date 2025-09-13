@@ -1,7 +1,7 @@
 .blog {
   display: flex;
   align-items: start;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: row;
   margin: 0;
   width: 100vw;
@@ -133,4 +133,14 @@
   justify-content: space-around;
   align-items: end;
   width: 100%;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  width: 400px;
+  margin-left: 100px;
+  margin-right: 0;
+  padding-right: 20px;
 }

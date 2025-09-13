@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import authRoute from "./routes/authRoute.js";
 import blogRoute from "./routes/blogRoute.js";
+import donationRoute from "./routes/donationRoute.js";
 
 const app = express();
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/auth", authRoute);
 app.use("/blog", blogRoute);
+app.use("/donate", donationRoute);
 
 const PORT = process.env.PORT || 5000;
 

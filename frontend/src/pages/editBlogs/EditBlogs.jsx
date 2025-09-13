@@ -19,7 +19,6 @@ const EditBlogs = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(`http://localhost:5000/blog/${id}`);
-        console.log("Response data : ", res.data);
         setTitle(res.data.title);
         setDescription(res.data.description);
         setContent(res.data.content);

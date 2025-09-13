@@ -2,7 +2,6 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authContext.jsx";
-import "./auth.css";
 
 const Login = () => {
   const { setUser, setIsAuthenticated } = useContext(AuthContext);

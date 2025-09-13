@@ -1,0 +1,86 @@
+.d-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: "Poppins", sans-serif; /* modern font */
+}
+
+.d-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  width: 350px;
+  height: 400px;
+  background-color: #f9fafb;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.d-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+#h-options {
+  color: #111827;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.d-options {
+  display: flex;
+  gap: 15px; /* spacing between amount boxes */
+  margin: 20px 0;
+}
+
+.d-amount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: #6366f1;
+  border-radius: 10px;
+  width: 80px;
+  height: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.d-amount:hover {
+  background-color: #4f46e5;
+  transform: scale(1.05);
+}
+
+.d-btn {
+  background: green;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.d-btn:hover {
+  background: rgb(0, 102, 0);
+  transform: scale(1.05);
+}
+
+.d-thanks {
+  font-size: 0.9rem;
+  color: #6b7280; /* soft gray */
+  font-style: italic;
+  margin-top: 10px;
+  text-align: center;
+}

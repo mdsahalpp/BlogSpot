@@ -7,6 +7,11 @@ import {
   updateBlog,
   deleteBlog,
   searchBlogs,
+  likedBlogs,
+  fetchLikes,
+  getComments,
+  addComments,
+  deleteComment,
 } from "../controllers/blogController.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import multer from "multer";
@@ -29,5 +34,15 @@ router.put("/update/:blogId", verifyToken, upload.single("image"), updateBlog);
 router.delete("/delete/:blogId", verifyToken, deleteBlog);
 
 router.get("/search/:q", searchBlogs);
+
+router.post("/like/:blogId", verifyToken, likedBlogs);
+
+router.get("/like/:blogId", verifyToken, fetchLikes);
+
+router.get("/comments/:blogId", verifyToken, getComments);
+
+router.post("/comments/:blogId", verifyToken, addComments);
+
+router.delete("/comment/:blogId/:commentId", verifyToken, deleteComment);
 
 export default router;

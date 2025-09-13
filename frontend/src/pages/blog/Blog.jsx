@@ -3,6 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./blog.css";
 import AuthContext from "../../context/authContext";
+import LikeButton from "../../components/likeButton/LIkeButton";
+import BlogComments from "../../components/blogComments/BlogComments";
 
 const Blog = () => {
   const { id } = useParams();
@@ -23,9 +25,7 @@ const Blog = () => {
       try {
         const res = await axios.get(`http://localhost:5000/blog/${id}`);
         setBlog(res.data);
-        setAuthor(res.data.author.username);
-        console.log("Fetched blog: ", res.data.author._id);
-        console.log("user : ", user);
+        setAuthor(res.data.author);
         if (user._id === res.data.author._id) {
           setOpenOpt(true);
         }
@@ -70,6 +70,10 @@ const Blog = () => {
 
   return (
     <div className="blog">
+      <div className="left-side">
+        <LikeButton id={id} />
+        <BlogComments blogAuthor={author._id} blogId={blog._id} />
+      </div>
       <div className="blog-container">
         <h1>{blog.title}</h1>
         <p>{blog.description}</p>

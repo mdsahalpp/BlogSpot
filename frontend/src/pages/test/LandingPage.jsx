@@ -17,7 +17,9 @@ const LandingPage = () => {
   return (
     <div className="base">
       <h1>Welcome to blogSpot</h1>
-      <button onClick={handleClick}>Let's start</button>
+      <button className="s-btn" onClick={handleClick}>
+        Let's start
+      </button>
     </div>
   );
 };

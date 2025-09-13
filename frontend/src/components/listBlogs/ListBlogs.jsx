@@ -13,7 +13,6 @@ const ListBlogs = () => {
       try {
         const response = await axios.get("http://localhost:5000/blog");
         setBlogs(response.data);
-        console.log("Fetched blogs : ", response.data);
         setLoading(false);
       } catch (err) {
         console.error(err);

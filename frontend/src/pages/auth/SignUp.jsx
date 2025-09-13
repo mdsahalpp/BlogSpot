@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./auth.css";
+import "./signup.css";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -39,45 +39,45 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container">
+    <div className="s-page">
       <div className="form-data">
-      <h1>SignUp page</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter username"
-        />
+        <h1>SignUp : </h1>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter username"
+          />
 
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter email"
-        />
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email"
+          />
 
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter password"
-        />
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+          />
 
-        <label htmlFor="confirmPass">Confirm Password</label>
-        <input
-          id="confirmPass"
-          type="password"
-          onChange={(e) => setConfirmPass(e.target.value)}
-          placeholder="Confirm password"
-        />
-        <Link to={"/login"}>Already have an account?</Link>
+          <label htmlFor="confirmPass">Confirm Password</label>
+          <input
+            id="confirmPass"
+            type="password"
+            onChange={(e) => setConfirmPass(e.target.value)}
+            placeholder="Confirm password"
+          />
+          <Link to={"/login"}>Already have an account?</Link>
 
-        <button type="submit">Sign up</button>
-      </form>
+          <button type="submit">Sign up</button>
+        </form>
       </div>
     </div>
   );

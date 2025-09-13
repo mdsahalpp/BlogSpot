@@ -6,3 +6,11 @@
   width: 100vw;
   height: 100vh;
 }
+
+.s-btn {
+  background-color: rgb(23, 22, 22);
+}
+
+.s-btn:hover {
+  background-color: rgb(15, 14, 14);
+}

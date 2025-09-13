@@ -1,0 +1,27 @@
+.auto-grow-textarea {
+  display: flex;
+  text-align: justify;
+  min-height: 30px;
+  width: 80%;
+  resize: none;
+  overflow: hidden;
+  padding: 15px 5px 0 8px;
+  font-size: 14px;
+  font-family: sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: large;
+  vertical-align: bottom;
+  line-height: 1;
+}
+
+.auto-grow-textarea:focus {
+  outline: none;
+  border-color: #6200ea;
+}
+
+.auto-grow-textarea::placeholder {
+  font-size: large;
+  font-family: sans-serif;
+}

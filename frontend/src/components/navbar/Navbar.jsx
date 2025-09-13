@@ -40,6 +40,9 @@ const Navbar = ({ onSearchChange }) => {
         />
       </div>
       <div className="right">
+        <Link to={"/donation"} className="navLink">
+          <p id="donation-icon">Donation</p>
+        </Link>
         <Link to={"/create"} className="navLink">
           <img src="./write.png" alt="write-icon" />
           <p>write</p>

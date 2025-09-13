@@ -179,3 +179,7 @@ img:hover {
   cursor: pointer;
   background-color: black;
 }
+
+#donation-icon {
+  font-size: large;
+}
