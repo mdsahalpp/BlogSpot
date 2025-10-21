@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 export const createBlog = async (req, res) => {
   const { title, description, content } = req.body;
-  const author = req.user.id;
+  const author = req.user._id;
 
   if (!title || !description || !author) {
     return res
@@ -12,7 +12,7 @@ export const createBlog = async (req, res) => {
   }
 
   try {
-    const imgUrl = req.file.path;
+    const imgUrl = req.file?.path || null;
     const newBlog = new Blog({
       title,
       description,
@@ -81,9 +81,8 @@ export const getBlogByAuthor = async (req, res) => {
 export const updateBlog = async (req, res) => {
   const { blogId } = req.params;
   const { title, description, content } = req.body;
-  const image = req.file.path;
-  const userId = req.user.id;
-
+  const image = req.file?.path;
+  const userId = req.user._id;
   try {
     const blog = await Blog.findById(blogId);
     if (!blog) {
@@ -109,7 +108,7 @@ export const updateBlog = async (req, res) => {
 
 export const deleteBlog = async (req, res) => {
   const { blogId } = req.params;
-  const userId = req.user.id;
+  const userId = req.user._id;
 
   try {
     const blog = await Blog.findById(blogId);
@@ -158,7 +157,7 @@ export const searchBlogs = async (req, res) => {
 
 export const likedBlogs = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const { blogId } = req.params;
 
     const blog = await Blog.findById(blogId);
@@ -185,7 +184,7 @@ export const likedBlogs = async (req, res) => {
 
 export const fetchLikes = async (req, res) => {
   const { blogId } = req.params;
-  const userId = req.user.id;
+  const userId = req.user._id;
   try {
     const blog = await Blog.findById(blogId);
     const alreadyLiked = blog.likedBy.includes(userId);
@@ -213,14 +212,13 @@ export const addComments = async (req, res) => {
   try {
     const { blogId } = req.params;
     const { text } = req.body;
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     if (!text)
       return res.status(400).json({ message: "Comment cannot be empty" });
 
     const blog = await Blog.findById(blogId);
     blog.comments.push({ user: userId, text });
-    console.log("working");
     await blog.save();
 
     res.status(201).json(blog.comments);
@@ -232,7 +230,7 @@ export const addComments = async (req, res) => {
 export const deleteComment = async (req, res) => {
   try {
     const { blogId, commentId } = req.params;
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     const blog = await Blog.findById(blogId);
     if (!blog) {

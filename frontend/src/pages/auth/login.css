@@ -1,0 +1,41 @@
+.l-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.form-cont {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(23, 26, 23);
+  border-radius: 10px;
+}
+
+.l-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25vw;
+}
+
+.l-form input {
+  margin-left: 8px;
+}
+
+.l-btn {
+  background-color: green;
+}
+
+.s-link {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.f-link {
+  margin-top: 20px;
+}

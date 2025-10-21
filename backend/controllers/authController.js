@@ -1,76 +1,86 @@
 import User from "../models/User.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import admin from "../firebase/firebaseAdmin.js";
 
 export const signup = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { token } = req.body;
   try {
-    const existingUser = await User.findOne({ username });
-    const existingEmail = await User.findOne({ email });
+    const decoded = await admin.auth().verifyIdToken(token);
 
-    if (existingUser || existingEmail) {
-      return res.status(400).json({ message: "User already exists" });
+    if (!decoded.email_verified) {
+      return res
+        .status(400)
+        .json({ message: "Please verify your email first" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-    });
-    await newUser.save();
-    res.status(201).json({ message: "User created successfully" });
+    res.status(200).json({ message: "User created successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("Error : ", err);
+    res.status(500).json({ message: "Invalid token" });
   }
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
   try {
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
-    console.log("isPasswordCorrect : ", isPasswordCorrect);
-    if (!isPasswordCorrect) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
-    const token = jwt.sign(
-      { id: existingUser._id, email: existingUser.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = authHeader.split(" ")[1];
+    const decodeToken = await admin.auth().verifyIdToken(token);
 
-    res.status(200).json({
-      token,
-      user: {
-        id: existingUser._id,
-        email: existingUser.email,
-        username: existingUser.username,
-      },
-    });
+    if (!decodeToken.email_verified) {
+      return res
+        .status(400)
+        .json({ message: "Please verify your email before logging..." });
+    }
+
+    const uid = decodeToken.uid;
+    const firebaseUser = await admin.auth().getUser(uid);
+    const email = firebaseUser.email;
+
+    let user = await User.findOne({ uid });
+
+    if (!user) {
+      user = new User({
+        uid,
+        email,
+        username: email.split("@")[0],
+      });
+      await user.save();
+    }
+    res.status(200).json({ message: "Login Successful", user });
   } catch (err) {
+    console.error("Error : ", err);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
 export const checkUser = async (req, res) => {
-  const { id } = req.user;
   try {
+    // Check if this is a new user (exists in Firebase but not in our database)
+    if (req.user.isNewUser) {
+      return res.status(200).json({
+        message: "New user detected",
+        isNewUser: true,
+        uid: req.user.uid,
+        email: req.user.email,
+      });
+    }
+
+    // For existing users, find them by their database ID
+    const { id } = req.user;
     const user = await User.findById(id).select(
       "-password -createdAt -updatedAt"
     );
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     res.status(200).json(user);
   } catch (err) {
+    console.error("Error in checkUser:", err);
     res.status(500).json({ message: "Something went wrong with server" });
   }
 };

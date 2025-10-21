@@ -1,6 +1,7 @@
-import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/firebase.js";
 
 const AuthContext = React.createContext();
 
@@ -11,48 +12,47 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
+  try {
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        if (firebaseUser) {
+          const token = await firebaseUser.getIdToken();
+          localStorage.setItem("token", token);
+
+          const res = await fetch("http://localhost:5000/auth/checkAuth", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+
+          if (data.isNewUser) {
+            setUser({ ...data, needsSetup: true });
+            setIsAuthenticated(true);
+          } else {
+            setUser(data);
+            setIsAuthenticated(true);
+          }
+        } else {
+          setUser(null);
+          setIsAuthenticated(false);
+          localStorage.removeItem("token");
+
           if (
             location.pathname !== "/" &&
-            location.pathname !== "/signup" &&
-            location.pathname !== "/login"
+            location.pathname !== "/login" &&
+            location.pathname !== "/signup"
           ) {
             navigate("/");
           }
-          setLoading(false);
-          return;
         }
-        const response = await axios.get(
-          "http://localhost:5000/auth/checkAuth",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(response.data);
-        setIsAuthenticated(true);
-      } catch (err) {
-        console.error(err);
-        setIsAuthenticated(false);
-        setUser(null);
-        if (
-          location.pathname !== "/" &&
-          location.pathname !== "/signup" &&
-          location.pathname !== "/login"
-        ) {
-          navigate("/");
-        }
-      } finally {
         setLoading(false);
-      }
-    };
-    checkAuth();
-  }, [navigate, location.pathname]);
+      });
+
+      return () => unsubscribe();
+    }, [navigate, location.pathname]);
+  } catch (err) {
+    console.error("Error : ", err);
+  }
+
   return (
     <AuthContext.Provider
       value={{ user, setUser, setIsAuthenticated, isAuthenticated, loading }}

@@ -1,11 +1,16 @@
-import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authContext.jsx";
+import { auth, googleProvider } from "../../firebase/firebase.js";
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import "./login.css";
 
 const Login = () => {
   const { setUser, setIsAuthenticated } = useContext(AuthContext);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -18,53 +23,114 @@ const Login = () => {
       return;
     }
 
-    const userData = { email, password };
-
     try {
-      const response = await axios.post(
-        "http://localhost:5000/auth/login",
-        userData
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        setUser(response.data.user);
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        await signOut(auth);
+        alert("Please verify your email before logging...");
+        return;
+      }
+
+      const token = await user.getIdToken();
+
+      const response = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setUser(data.user);
         setIsAuthenticated(true);
+        localStorage.setItem("token", token);
         navigate("/home");
+      } else {
+        setError(data.message);
+        alert(data.message);
       }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-        alert(err.response.data.message);
+      console.error("Login failed. Please check your credentials.", err);
+      setError(err.message || "Login failed");
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const token = await user.getIdToken();
+
+      const response = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/token",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email: user.email }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setUser(data.user);
+        setIsAuthenticated(true);
+        localStorage.setItem("token", token);
+        navigate("/home");
       } else {
-        setError("Login failed. Please try again.");
+        alert(data.message);
       }
-      console.error("Login failed. Please check your credentials.");
+    } catch (err) {
+      console.error("Error in google login : ", err);
     }
   };
 
   return (
-    <div>
-      <h1>Login page</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={error || "Enter email"}
-        />
+    <div className="l-page">
+      <div className="form-cont">
+        <h1>Login : </h1>
+        <form onSubmit={handleSubmit} className="l-form">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={error || "Enter email"}
+          />
 
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder={error || "Enter password"}
-        />
-        <Link to={"/signup"}>Create new account?</Link>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder={error || "Enter password"}
+          />
+          <Link className="f-link" to={"/forgot-password"}>
+            Forgot password?
+          </Link>
+          <p style={{ color: "red" }}>{error}</p>
+          <button className="l-btn" type="submit">
+            Login
+          </button>
+          <p>OR</p>
+          <button id="g-btn" onClick={handleGoogleLogin}>
+            <img src="/google.png" alt="" />
+            Login with google
+          </button>
 
-        <button type="submit">Login</button>
-      </form>
+          <Link className="s-link" to={"/signup"}>
+            Create new account?
+          </Link>
+        </form>
+      </div>
     </div>
   );
 };

@@ -13,8 +13,12 @@ const imgStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "BlogSpot",
-    allowed_formats: ["jpg", "png", "jpeg "],
+    allowed_formats: ["jpg", "png", "jpeg"],
     transformation: [{ fetch_format: "auto" }, { quality: "auto" }],
+    // Security enhancements
+    max_bytes: 5 * 1024 * 1024, // 5MB limit
+    resource_type: "image",
+    eager: [{ width: 1200, height: 800, crop: "limit" }], // Resize large images
   },
 });
 

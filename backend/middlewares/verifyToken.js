@@ -1,19 +1,30 @@
-import jwt from "jsonwebtoken";
+import admin from "../firebase/firebaseAdmin.js";
+import User from "../models/User.js";
 
-export const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-
-  if (!token) {
-    console.log("Token not found");
-    return res.status(401).json({ message: "Token not found" });
+export const verifyToken = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    return res.status(401).json({ message: "Unauthorized" });
   }
+
+  const token = authHeader.split(" ")[1];
+
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (!verified) {
-      return res.status(401).json({ message: "Token varification failed" });
+    const decodeToken = await admin.auth().verifyIdToken(token);
+    const user = await User.findOne({ uid: decodeToken.uid });
+
+    if (!user) {
+      // User exists in Firebase but not in our database
+      // Create a temporary user object with Firebase data
+      req.user = {
+        uid: decodeToken.uid,
+        email: decodeToken.email,
+        isNewUser: true, // Flag to indicate this is a new user
+      };
+    } else {
+      req.user = user;
     }
 
-    req.user = { id: verified.id };
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });

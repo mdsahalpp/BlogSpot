@@ -9,3 +9,6 @@
 
 # Hide node_modules
 node_modules
+
+#firebase key
+serviceAccountKey.json

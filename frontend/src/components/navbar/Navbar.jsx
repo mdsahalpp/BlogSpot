@@ -17,7 +17,6 @@ const Navbar = ({ onSearchChange }) => {
     setIsAuthenticated(false);
     navigate("/login");
   };
-
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearch(value);

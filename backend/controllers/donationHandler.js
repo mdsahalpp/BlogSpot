@@ -9,11 +9,9 @@ const razorpay = new Razorpay({
 export const createOrder = async (req, res) => {
   try {
     const { amount, donor } = req.body;
-    console.log("Amount : ", amount, "Donor : ", donor);
     if (!amount || amount < 1) {
       return res.status(400).json({ message: "Invalid amount" });
     }
-    console.log("fix");
     const order = await razorpay.orders.create({
       amount: Math.round(amount * 100),
       currency: "INR",
@@ -30,7 +28,6 @@ export const createOrder = async (req, res) => {
       o_currency: order.currency,
     });
   } catch (err) {
-    console.log("Error : ", err);
     res.status(500).json({ message: "Failed to create an order", err });
   }
 };
