@@ -11,7 +11,7 @@ lerna-debug.log*
 .env
 
 *.pdf
-
+.gitignore
 node_modules
 dist
 dist-ssr
