@@ -60,23 +60,40 @@ app.use("/blog", blogRoute);
 app.use("/donate", donationRoute);
 app.use("/user", userRoute);
 
-// Error handling middleware (must be last)
 app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-// Validate required environment variables
 const requiredEnvVars = [
   "MONGO_URI",
   "RAZORPAY_API_KEY",
   "RAZORPAY_SECRET",
   "CLOUDINARY_CLOUD_NAME",
 ];
+
+// Firebase environment variables (required for production)
+const firebaseEnvVars = [
+  "FIREBASE_PROJECT_ID",
+  "FIREBASE_PRIVATE_KEY_ID",
+  "FIREBASE_PRIVATE_KEY",
+  "FIREBASE_CLIENT_EMAIL",
+  "FIREBASE_CLIENT_ID",
+];
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
     console.error(`${envVar} is required`);
     process.exit(1);
+  }
+}
+
+// Check Firebase environment variables only in production
+if (process.env.NODE_ENV === "production") {
+  for (const envVar of firebaseEnvVars) {
+    if (!process.env[envVar]) {
+      console.error(`${envVar} is required for production deployment`);
+      process.exit(1);
+    }
   }
 }
 

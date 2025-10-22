@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # enviornmental file
 .env
+serviceAccountKey.json
 
 *.pdf
 .gitignore

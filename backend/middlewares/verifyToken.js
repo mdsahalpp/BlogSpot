@@ -14,12 +14,10 @@ export const verifyToken = async (req, res, next) => {
     const user = await User.findOne({ uid: decodeToken.uid });
 
     if (!user) {
-      // User exists in Firebase but not in our database
-      // Create a temporary user object with Firebase data
       req.user = {
         uid: decodeToken.uid,
         email: decodeToken.email,
-        isNewUser: true, // Flag to indicate this is a new user
+        isNewUser: true,
       };
     } else {
       req.user = user;

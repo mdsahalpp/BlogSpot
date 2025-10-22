@@ -58,7 +58,6 @@ export const login = async (req, res) => {
 
 export const checkUser = async (req, res) => {
   try {
-    // Check if this is a new user (exists in Firebase but not in our database)
     if (req.user.isNewUser) {
       return res.status(200).json({
         message: "New user detected",
@@ -68,7 +67,6 @@ export const checkUser = async (req, res) => {
       });
     }
 
-    // For existing users, find them by their database ID
     const { id } = req.user;
     const user = await User.findById(id).select(
       "-password -createdAt -updatedAt"

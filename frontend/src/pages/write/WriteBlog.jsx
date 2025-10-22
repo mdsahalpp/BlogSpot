@@ -9,6 +9,9 @@ const writeBlog = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -24,6 +27,12 @@ const writeBlog = () => {
       setError("Title and description are required");
       return;
     }
+
+    setIsLoading(true);
+    setError("");
+    setSuccessMessage("");
+    setUploadProgress(0);
+
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -38,16 +47,31 @@ const writeBlog = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted);
+          }
+        },
       });
 
-      alert("Blog created!");
+      setSuccessMessage("Blog created successfully!");
       setTitle("");
       setDescription("");
+      setContent("");
       setImage(null);
       setPreview(null);
+
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
     } catch (err) {
       console.error(err);
-      setError("Blog creation failed.");
+      setError("Blog creation failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,7 +79,7 @@ const writeBlog = () => {
     <div className="writeBlog">
       <h1>Here you write the blog</h1>
       <form onSubmit={handleSubmit}>
-        <div className="blogForm">
+        <div className={`blogForm ${isLoading ? "loading" : ""}`}>
           <textarea
             id="title"
             value={title}
@@ -98,10 +122,31 @@ const writeBlog = () => {
               </label>
             </div>
             <div className="publish-btn">
-              <button type="submit">Publish</button>
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <span className="loading-spinner"></span>
+                    Publishing...
+                  </>
+                ) : (
+                  "Publish"
+                )}
+              </button>
             </div>
           </div>
+          {isLoading && (
+            <div className="progress-container">
+              <div className="progress-bar">
+                <div
+                  className="progress-fill"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <p className="progress-text">Uploading... {uploadProgress}%</p>
+            </div>
+          )}
           {error && <p className="error">{error}</p>}
+          {successMessage && <p className="success">{successMessage}</p>}
         </div>
       </form>
     </div>

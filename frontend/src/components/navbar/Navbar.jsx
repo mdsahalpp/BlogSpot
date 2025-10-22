@@ -10,7 +10,6 @@ const Navbar = ({ onSearchChange }) => {
   const [search, setSearch] = useState("");
   const debouncerTime = useRef(null);
   const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
