@@ -63,6 +63,9 @@ app.use("/user", userRoute);
 app.use(notFound);
 app.use(errorHandler);
 
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
 const PORT = process.env.PORT || 5000;
 
 const requiredEnvVars = [
