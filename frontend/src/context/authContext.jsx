@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase.js";
+import API from "../../api.js";
 
 const AuthContext = React.createContext();
 
@@ -19,10 +20,10 @@ export const AuthProvider = ({ children }) => {
           const token = await firebaseUser.getIdToken();
           localStorage.setItem("token", token);
 
-          const res = await fetch("http://localhost:5000/auth/checkAuth", {
+          const res = await API.get("/auth/checkAuth", {
             headers: { Authorization: `Bearer ${token}` },
           });
-          const data = await res.json();
+          const data = await res.data;
 
           if (data.isNewUser) {
             setUser({ ...data, needsSetup: true });

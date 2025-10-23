@@ -1,4 +1,5 @@
 import axios from "axios";
+import API from "../../../api.js";
 import React, { useEffect, useState } from "react";
 import BlogCard from "../blogCard/BlogCard";
 import "./listBlogs.css";
@@ -11,7 +12,7 @@ const ListBlogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/blog");
+        const response = await API.get("/blog");
         setBlogs(response.data);
         setLoading(false);
       } catch (err) {

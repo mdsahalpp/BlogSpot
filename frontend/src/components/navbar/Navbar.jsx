@@ -56,7 +56,7 @@ const Navbar = ({ onSearchChange }) => {
           {showDropdown && (
             <div className="dropProfile">
               <div className="logged-user">
-                <p>{user?.username}</p>
+                <p onClick={() => navigate("/profile")}>{user?.username}</p>
                 <button
                   id="logout-btn"
                   onClick={() => setShowConfirmation(true)}

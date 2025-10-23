@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./writeBlog.css";
+import API from "../../../api";
 
 const writeBlog = () => {
   const [title, setTitle] = useState("");
@@ -42,7 +42,7 @@ const writeBlog = () => {
     formData.append("content", content);
 
     try {
-      await axios.post("http://localhost:5000/blog/create", formData, {
+      await API.post("/blog/create", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

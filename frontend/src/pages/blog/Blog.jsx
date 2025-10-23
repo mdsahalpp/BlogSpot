@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../../../api";
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./blog.css";
@@ -23,7 +23,7 @@ const Blog = () => {
     const fetchBlog = async () => {
       if (!user) return;
       try {
-        const res = await axios.get(`http://localhost:5000/blog/${id}`);
+        const res = await API.get(`/blog/${id}`);
         setBlog(res.data);
         setAuthor(res.data.author);
         if (user._id === res.data.author._id) {
@@ -47,15 +47,11 @@ const Blog = () => {
   const deleteBlog = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/blog/delete/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Blog deleted successfully: ", res.data);
+      const res = await API.delete(`/blog/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } catch (err) {
       console.error("Error deleting blog: ", err);
     }

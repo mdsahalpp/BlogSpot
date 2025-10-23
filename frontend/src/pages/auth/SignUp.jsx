@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../../../api.js";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../../firebase/firebase.js";
@@ -42,7 +42,7 @@ const SignUp = () => {
 
       const idToken = await userCredential.user.getIdToken();
 
-      await axios.post("http://localhost:5000/auth/signup", {
+      await API.post("/auth/signup", {
         token: idToken,
       });
       signOut(auth);
@@ -61,7 +61,7 @@ const SignUp = () => {
         result.user.displayName?.replace(/\s+/g, "") ||
         result.user.email.split("@")[0];
 
-      await axios.post("http://localhost:5000/auth/signup", {
+      await API.post("/auth/signup", {
         token: idToken,
         username,
       });

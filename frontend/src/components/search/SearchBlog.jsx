@@ -1,4 +1,5 @@
 import axios from "axios";
+import API from "../../../api.js";
 import React, { useEffect, useState } from "react";
 import BlogCard from "../blogCard/BlogCard";
 
@@ -9,9 +10,7 @@ const SearchBlog = ({ searchTerm }) => {
     console.log("Search term : ", searchTerm);
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/blog/search/${searchTerm}`
-        );
+        const response = await API.get(`/blog/search/${searchTerm}`);
         setBlogs(response.data);
       } catch (err) {
         console.error("Error fetching blogs: ", err);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../../../api";
 import "./editBlogs.css";
 
 const EditBlogs = () => {
@@ -18,7 +18,7 @@ const EditBlogs = () => {
     const fetchBlog = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`http://localhost:5000/blog/${id}`);
+        const res = await API.get(`/blog/${id}`);
         setTitle(res.data.title);
         setDescription(res.data.description);
         setContent(res.data.content);
@@ -35,7 +35,6 @@ const EditBlogs = () => {
 
   const handleImgChange = (e) => {
     const file = e.target.files[0];
-    console.log("File : ", file);
     if (file) {
       setImage(file);
       setPreview(URL.createObjectURL(file));
@@ -50,24 +49,17 @@ const EditBlogs = () => {
       }
 
       const token = localStorage.getItem("token");
-      console.log("tOKEN : ", token);
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
       formData.append("content", content);
       formData.append("image", image);
-      console.log("ID : ", id);
-      const res = await axios.put(
-        `http://localhost:5000/blog/update/${id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("Response : ", res);
+      const res = await API.put(`/blog/update/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       alert("Blog updated.");
       navigate(`/blog/${id}`);
     } catch (err) {

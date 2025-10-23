@@ -4,6 +4,7 @@ import axios from "axios";
 import Textarea from "../subs/autoGrowTextarea/Textarea.jsx";
 import AuthContext from "../../context/authContext.jsx";
 import "./blogComments.css";
+import API from "../../../api.js";
 
 const BlogComments = ({ blogAuthor, blogId }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +16,7 @@ const BlogComments = ({ blogAuthor, blogId }) => {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/blog/comments/${id}`, {
+      const res = await API.get(`/blog/comments/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -29,8 +30,8 @@ const BlogComments = ({ blogAuthor, blogId }) => {
   const handlePostComment = async () => {
     if (!newComment.trim()) return;
     try {
-      const res = await axios.post(
-        `http://localhost:5000/blog/comments/${id}`,
+      const res = await API.post(
+        `/blog/comments/${id}`,
         { text: newComment },
         {
           headers: {
@@ -47,15 +48,11 @@ const BlogComments = ({ blogAuthor, blogId }) => {
 
   const handleDeleteButton = async (commentId) => {
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/blog/comment/${blogId}/${commentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(res.data);
+      const res = await API.delete(`/blog/comment/${blogId}/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } catch (err) {
       console.error("Error deleting comment : ", err);
     }

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./likeButton.css";
 import { useParams } from "react-router-dom";
+import API from "../../../api.js";
 
 const LikeButton = () => {
   const [liked, setLiked] = useState(false);
@@ -13,8 +14,8 @@ const LikeButton = () => {
     setLikeCount((prev) => prev + (liked ? -1 : 1));
     setLiked(!liked);
 
-    const res = await axios.post(
-      `http://localhost:5000/blog/like/${id}`,
+    const res = await API.post(
+      `/blog/like/${id}`,
       {},
       {
         headers: {
@@ -22,13 +23,12 @@ const LikeButton = () => {
         },
       }
     );
-    console.log("response data on liked : ", res.data.liked);
     setLiked(res.data.liked);
   };
   useEffect(() => {
     const fetchLikeCount = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/blog/like/${id}`, {
+        const res = await API.get(`/blog/like/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

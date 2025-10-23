@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import AuthContext from "../../context/authContext";
+import API from "../../../api";
 import axios from "axios";
 import "./donate.css";
 
@@ -17,8 +18,8 @@ const Donate = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/donate/create-order",
+      const { data } = await API.post(
+        "/donate/create-order",
         {
           amount: selected,
           donor: {
@@ -40,8 +41,8 @@ const Donate = () => {
         description: "Thank you for supporting us ❤️",
         order_id: data.o_id,
         handler: async function (response) {
-          await axios.post(
-            "http://localhost:5000/donate/verify-order",
+          await API.post(
+            "/donate/verify-order",
             {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,

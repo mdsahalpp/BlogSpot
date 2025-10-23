@@ -8,6 +8,7 @@ import {
   signOut,
 } from "firebase/auth";
 import "./login.css";
+import API from "../../../api.js";
 
 const Login = () => {
   const { setUser, setIsAuthenticated } = useContext(AuthContext);
@@ -39,13 +40,17 @@ const Login = () => {
 
       const token = await user.getIdToken();
 
-      const response = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await API.post(
+        "/auth/login",
+        {},
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
@@ -70,17 +75,19 @@ const Login = () => {
 
       const token = await user.getIdToken();
 
-      const response = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/token",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ email: user.email }),
-      });
+      const response = await API.post(
+        "/auth/login",
+        { email: user.email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      const data = await response.json();
-      if (response.ok) {
+      const data = await response.data;
+      if (response.status === 200) {
         setUser(data.user);
         setIsAuthenticated(true);
         localStorage.setItem("token", token);

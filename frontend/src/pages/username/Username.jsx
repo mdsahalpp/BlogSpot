@@ -2,6 +2,7 @@ import "./username.css";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../../../api";
 
 const Username = () => {
   const [username, setUsername] = useState("");
@@ -14,14 +15,13 @@ const Username = () => {
         alert("You must enter a username");
         return;
       }
-      const res = await axios.put(
-        "http://localhost:5000/user/username",
+      const res = await API.put(
+        "/user/username",
         { username },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("Res : ", res.data.message);
       alert(res);
       navigate("/home");
     } catch (err) {
