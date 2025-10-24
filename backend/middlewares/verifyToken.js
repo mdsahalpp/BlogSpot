@@ -14,14 +14,9 @@ export const verifyToken = async (req, res, next) => {
     const user = await User.findOne({ uid: decodeToken.uid });
 
     if (!user) {
-      req.user = {
-        uid: decodeToken.uid,
-        email: decodeToken.email,
-        isNewUser: true,
-      };
-    } else {
-      req.user = user;
+      return res.status(403).json({ message: "User not found" });
     }
+    req.user = user;
 
     next();
   } catch (err) {
