@@ -20,11 +20,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25vw;
+  width: 90%;
 }
 
 .l-form input {
   margin-left: 8px;
+  width: 90%;
 }
 
 .l-btn {
