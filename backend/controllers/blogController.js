@@ -109,7 +109,9 @@ export const updateBlog = async (req, res) => {
 export const deleteBlog = async (req, res) => {
   const { blogId } = req.params;
   const userId = req.user._id;
-
+  console.log(userId);
+  console.log(blogId);
+  console.log(req.user);
   try {
     const blog = await Blog.findById(blogId);
     if (!blog) {
