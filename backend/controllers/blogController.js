@@ -109,16 +109,14 @@ export const updateBlog = async (req, res) => {
 export const deleteBlog = async (req, res) => {
   const { blogId } = req.params;
   const userId = req.user._id;
-  console.log(userId);
-  console.log(blogId);
-  console.log(req.user);
   try {
     const blog = await Blog.findById(blogId);
     if (!blog) {
       return res.status(404).json({ messsage: "Blog not found" });
     }
-
+    console.log("blog author : ", blog.author.toString());
     if (blog.author.toString() !== userId) {
+      console.log("Unauthorized");
       return res
         .status(403)
         .json({ message: "Unauthorized to delete this blog" });
