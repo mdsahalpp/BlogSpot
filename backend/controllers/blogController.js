@@ -115,7 +115,8 @@ export const deleteBlog = async (req, res) => {
       return res.status(404).json({ messsage: "Blog not found" });
     }
     console.log("blog author : ", blog.author.toString());
-    if (blog.author.toString() !== userId) {
+    console.log("user id : ", userId.toString());
+    if (blog.author.toString() !== userId.toString()) {
       console.log("Unauthorized");
       return res
         .status(403)
