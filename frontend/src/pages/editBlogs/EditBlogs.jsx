@@ -60,7 +60,7 @@ const EditBlogs = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      alert("Blog updated.");
+      alert(res.data);
       navigate(`/blog/${id}`);
     } catch (err) {
       console.error("Error updating blog : ", err);

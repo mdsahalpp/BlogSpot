@@ -88,7 +88,7 @@ export const updateBlog = async (req, res) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    if (blog.author.toString() !== userId) {
+    if (blog.author.toString() !== userId.toString()) {
       return res
         .status(403)
         .json({ message: "Unauthorized to update this blog" });
@@ -114,10 +114,7 @@ export const deleteBlog = async (req, res) => {
     if (!blog) {
       return res.status(404).json({ messsage: "Blog not found" });
     }
-    console.log("blog author : ", blog.author.toString());
-    console.log("user id : ", userId.toString());
     if (blog.author.toString() !== userId.toString()) {
-      console.log("Unauthorized");
       return res
         .status(403)
         .json({ message: "Unauthorized to delete this blog" });
