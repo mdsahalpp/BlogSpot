@@ -52,7 +52,7 @@ const Blog = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert(res.data);
+      alert(res.data.message);
     } catch (err) {
       console.error("Error deleting blog: ", err);
     }
