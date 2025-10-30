@@ -75,7 +75,6 @@ const requiredEnvVars = [
   "CLOUDINARY_CLOUD_NAME",
 ];
 
-// Firebase environment variables (required for production)
 const firebaseEnvVars = [
   "FIREBASE_PROJECT_ID",
   "FIREBASE_PRIVATE_KEY_ID",
@@ -90,7 +89,6 @@ for (const envVar of requiredEnvVars) {
   }
 }
 
-// Check Firebase environment variables only in production
 if (process.env.NODE_ENV === "production") {
   for (const envVar of firebaseEnvVars) {
     if (!process.env[envVar]) {

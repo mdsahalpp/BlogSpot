@@ -2,15 +2,18 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA9SFFQDfJ4AzyPTSVfltvf_ZHEv5TKnm0",
-  authDomain: "blog-spot-e547b.firebaseapp.com",
-  projectId: "blog-spot-e547b",
-  storageBucket: "blog-spot-e547b.firebasestorage.app",
-  messagingSenderId: "737127426537",
-  appId: "1:737127426537:web:292bc4035da37e01dc0378",
-  measurementId: "G-VS6SJ9CTSE",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PRODUCT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
